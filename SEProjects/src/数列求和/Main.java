@@ -34,11 +34,22 @@ public class Main {
     private static double G(int n) {
         if (n == 2) return 3 / 2.0;
         if(n==1) return 2;
-        return 1 + f(n - 2) / f(n - 1);
+        return 1 + f1(n - 2) / f1(n - 1);
     }
 
     private static double f(int n) {
         if(n<=2) return n + 1;
         return f(n - 1) + f(n - 2);
+    }
+
+    private static double f1(int n) {
+        int s = 2, e = 3, temp = 0;
+        if(n==1) return s;
+        for (int i = 2; i <n ; i++) {
+            temp = e;
+            e = s + e;
+            s = temp;
+        }
+        return e;
     }
 }
