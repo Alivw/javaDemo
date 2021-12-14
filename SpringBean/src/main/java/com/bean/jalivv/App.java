@@ -13,8 +13,6 @@ public class App {
         ApplicationContext context = new ClassPathXmlApplicationContext("application.xml");
         Student student = (Student) context.getBean("student");
         System.out.println(student);
-
     }
-
 
 }
