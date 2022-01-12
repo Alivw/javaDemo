@@ -1,6 +1,7 @@
 package com.bean.jalivv.entity;
 
 import com.bean.jalivv.annotation.Jalivv;
+import com.bean.jalivv.service.StudentService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ import javax.jws.soap.SOAPBinding;
 @Component
 @NoArgsConstructor
 @AllArgsConstructor
-public class Student {
+public class Student implements StudentService {
 
     private User user;
 
@@ -58,4 +59,8 @@ public class Student {
         System.out.println("two param constructor");
     }
 
+    @Override
+    public void test() {
+        System.out.println("业务逻辑");
+    }
 }
