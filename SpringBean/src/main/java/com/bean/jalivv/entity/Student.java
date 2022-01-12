@@ -4,7 +4,10 @@ import com.bean.jalivv.annotation.Jalivv;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.jws.soap.SOAPBinding;
 
 /**
  * @Description TODO
@@ -13,10 +16,12 @@ import org.springframework.stereotype.Component;
  */
 
 @Data
+@Component
 @NoArgsConstructor
 @AllArgsConstructor
-@Component
 public class Student {
+
+    private User user;
 
     @Jalivv("ybb")
     private String name;
@@ -25,5 +30,10 @@ public class Student {
 
     @Jalivv("a prety girl")
     private String description;
+
+    @Autowired
+    public Student(User user) {
+        System.out.println("The constructor of the specified");
+    }
 
 }
