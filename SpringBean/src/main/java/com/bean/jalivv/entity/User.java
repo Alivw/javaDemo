@@ -20,4 +20,5 @@ public class User {
 
     @Jalivv
     private String name;
+
 }
