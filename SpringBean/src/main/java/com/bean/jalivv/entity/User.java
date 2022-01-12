@@ -7,23 +7,17 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
- * @Description TODO
+ * @Description
+ * @Created: with IntelliJ IDEA.
  * @Author jalivv
- * @Date 2021/12/13 21:05
+ * @createTime 2022/1/12 20:25
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class Student {
+public class User {
 
-    @Jalivv("ybb")
+    @Jalivv
     private String name;
-
-    private Integer age;
-
-    @Jalivv("a prety girl")
-    private String description;
-
 }
