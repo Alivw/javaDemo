@@ -1,4 +1,4 @@
-package com.bean.jalivv.importregistrar;
+package org.apache.ibatis;
 
 import com.bean.jalivv.mapper.CartMapper;
 import com.bean.jalivv.mapper.OrderMapper;
@@ -25,6 +25,8 @@ public class MyImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegi
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+
+        String path = "com.ben.jalivv.mapper";
 
         List<Class> mapperClass = new ArrayList<>();
 

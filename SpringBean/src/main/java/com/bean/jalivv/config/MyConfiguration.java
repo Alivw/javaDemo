@@ -1,7 +1,7 @@
 package com.bean.jalivv.config;
 
 import com.bean.jalivv.entity.User;
-import com.bean.jalivv.importregistrar.MyImportBeanDefinitionRegistrar;
+import org.apache.ibatis.MyImportBeanDefinitionRegistrar;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;

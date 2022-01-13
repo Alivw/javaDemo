@@ -1,20 +1,9 @@
 package com.bean.jalivv;
 
 import com.bean.jalivv.config.MyConfiguration;
-import com.bean.jalivv.entity.Student;
-import com.bean.jalivv.entity.User;
-import com.bean.jalivv.importregistrar.MyImportBeanDefinitionRegistrar;
-import com.bean.jalivv.mapper.CartMapper;
-import com.bean.jalivv.mapper.UserMapper;
 import com.bean.jalivv.service.StudentService;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.BEncoderStream;
-import org.apache.ibatis.MyFactoryBean;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.support.AbstractBeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Import;
-import org.springframework.stereotype.Component;
 
 /**
  * Hello world!
