@@ -35,10 +35,11 @@ public class MyFactoryBean implements FactoryBean {
 
     /**
      * set 注入
+     * 不加 @Autowired 使用 ByType 注入
      *
      * @param sqlSessionFactory
      */
-    @Autowired
+    //@Autowired
     public void setSession(SqlSessionFactory sqlSessionFactory) {
         sqlSessionFactory.getConfiguration().addMapper(mapperClass);
         this.sqlSession = sqlSessionFactory.openSession();
