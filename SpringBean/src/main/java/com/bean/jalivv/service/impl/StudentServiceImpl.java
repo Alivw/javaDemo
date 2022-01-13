@@ -28,8 +28,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void test() {
-        userMapper.selectById();
-        orderMapper.selectById();
-        cartMapper.selectById();
+        System.out.println(userMapper.selectById());
+        System.out.println(orderMapper.selectById());
+        System.out.println(cartMapper.selectById());
     }
 }

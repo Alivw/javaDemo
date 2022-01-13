@@ -1,6 +1,7 @@
 package com.bean.jalivv.mapper;
 
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Component;
 
 /**
  * @Description
