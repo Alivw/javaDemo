@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://service.aliww.top:3306/car
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+
+logging:
+  level:
+    com.jalivv.demo: debug
