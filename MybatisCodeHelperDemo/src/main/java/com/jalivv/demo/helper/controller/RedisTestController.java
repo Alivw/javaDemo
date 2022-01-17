@@ -1,29 +1,28 @@
 package com.jalivv.demo.helper.controller;
 
-import com.jalivv.demo.helper.entity.User;
-import com.jalivv.demo.helper.service.impl.UserService;
+import com.jalivv.demo.helper.service.RedisTestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @Description
  * @Created: with IntelliJ IDEA.
  * @Author jalivv
- * @createTime 2022/1/17 08:50
+ * @createTime 2022/1/17 09:08
  */
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/redis")
+public class RedisTestController {
 
     @Autowired
-    UserService userService;
+    RedisTestService redisTestService;
 
-    @GetMapping("/list")
-    public List<User> list() {
-        return userService.list();
+    @GetMapping("/put/{num}")
+    public String put(@PathVariable("num") Long num) {
+        redisTestService.putValueForCircle(num);
+        return "ok";
     }
 }
