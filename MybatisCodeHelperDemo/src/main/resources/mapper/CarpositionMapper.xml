@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jalivv.demo.helper.mapper.CarpositionMapper">
+  <resultMap id="BaseResultMap" type="com.jalivv.demo.helper.entity.Carposition">
+    <!--@Table t_carposition-->
+    <id column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="areaId" jdbcType="INTEGER" property="areaid" />
+    <result column="positionNo" jdbcType="VARCHAR" property="positionno" />
+    <result column="addTime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="isactive" jdbcType="INTEGER" property="isactive" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pid, areaId, positionNo, addTime, isactive
+  </sql>
+</mapper>

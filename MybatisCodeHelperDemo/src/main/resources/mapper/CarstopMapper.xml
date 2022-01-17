@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jalivv.demo.helper.mapper.CarstopMapper">
+  <resultMap id="BaseResultMap" type="com.jalivv.demo.helper.entity.Carstop">
+    <!--@Table t_carstop-->
+    <id column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="carNumber" jdbcType="VARCHAR" property="carnumber" />
+    <result column="carTypeId" jdbcType="INTEGER" property="cartypeid" />
+    <result column="carPositionNo" jdbcType="VARCHAR" property="carpositionno" />
+    <result column="startTime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="endTime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="stopDuration" jdbcType="FLOAT" property="stopduration" />
+    <result column="stopCoat" jdbcType="FLOAT" property="stopcoat" />
+    <result column="price" jdbcType="FLOAT" property="price" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    cid, carNumber, carTypeId, carPositionNo, startTime, endTime, stopDuration, stopCoat, 
+    price, pid
+  </sql>
+</mapper>

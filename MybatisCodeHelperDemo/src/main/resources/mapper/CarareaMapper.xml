@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jalivv.demo.helper.mapper.CarareaMapper">
+  <resultMap id="BaseResultMap" type="com.jalivv.demo.helper.entity.Cararea">
+    <!--@Table t_cararea-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="areaName" jdbcType="VARCHAR" property="areaname" />
+    <result column="price" jdbcType="FLOAT" property="price" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, areaName, price
+  </sql>
+</mapper>
