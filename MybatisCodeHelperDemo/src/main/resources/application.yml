@@ -6,7 +6,7 @@ spring:
     password: root
   redis:
     port: 6379
-    #    password: zhiruwakuangchengxumeiyoumasaidbyjalivv
+    #    password: jjjj
     host: service.jalivv.com
 
 logging:
