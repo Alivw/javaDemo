@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.time.temporal.Temporal;
+
 /**
  * @Description
  * @Created: with IntelliJ IDEA.
@@ -14,12 +16,16 @@ import org.springframework.data.redis.core.RedisTemplate;
  */
 @SpringBootApplication
 public class MybatisCodeHelperDemoApplication {
-    public Logger log = LoggerFactory.getLogger(MybatisCodeHelperDemoApplication.class);
+
+
+    private static final Logger logger = LoggerFactory.getLogger(MybatisCodeHelperDemoApplication.class);
+
 
     public MybatisCodeHelperDemoApplication(RedisTemplate<String, Object> redisTemplate) {
-        log.info("redistemplate---------->" + redisTemplate.getDefaultSerializer());
-        log.info("redistemplate---------->" + redisTemplate.getHashKeySerializer());
-        log.info("redistemplate---------->" + redisTemplate.getHashValueSerializer());
+
+        logger.info("com.jalivv.demo.helper-->MybatisCodeHelperDemoApplication::redisTemplate:" +
+                        "DefaultSerializer = [{}],HashKeySerializer = [{}],HashValueSerializer = [{}]",
+                redisTemplate.getDefaultSerializer(), redisTemplate.getHashKeySerializer(), redisTemplate.getHashValueSerializer());
     }
 
     public static void main(String[] args) {
