@@ -6,8 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.time.temporal.Temporal;
-
 /**
  * @Description
  * @Created: with IntelliJ IDEA.
