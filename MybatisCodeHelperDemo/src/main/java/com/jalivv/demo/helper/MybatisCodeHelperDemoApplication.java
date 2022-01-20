@@ -27,7 +27,7 @@ public class MybatisCodeHelperDemoApplication {
     }
 
     public static void main(String[] args) {
-        new SpringApplication(MybatisCodeHelperDemoApplication.class).run(args);
+        SpringApplication.run(MybatisCodeHelperDemoApplication.class);
     }
 
 
