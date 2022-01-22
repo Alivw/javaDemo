@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import template.JalivvTemplate;
 
-@EnableJalivv
+//@EnableJalivv
 @SpringBootApplication
 public class SpringbootProjectsApplication {
 
