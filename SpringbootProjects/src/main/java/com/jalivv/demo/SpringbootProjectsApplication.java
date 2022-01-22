@@ -10,7 +10,6 @@ import template.JalivvTemplate;
 @SpringBootApplication
 public class SpringbootProjectsApplication {
 
-
     public static void main(String[] args) {
         ConfigurableApplicationContext run = SpringApplication.run(SpringbootProjectsApplication.class, args);
         JalivvTemplate jalivvTemplate = run.getBean("jalivvTemplate", JalivvTemplate.class);

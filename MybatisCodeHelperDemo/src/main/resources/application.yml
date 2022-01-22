@@ -8,7 +8,7 @@ spring:
     port: 6379
     #    host: service.jalivv.com
     host: service.aliww.top
-    password: password
+    password: zhiruwakuangchengxumeiyoumasaidbyjalivv
 logging:
   level:
     com.jalivv.demo: debug
