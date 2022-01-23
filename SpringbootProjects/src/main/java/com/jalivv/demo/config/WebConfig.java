@@ -1,21 +1,21 @@
 package com.jalivv.demo.config;
 
+import com.jalivv.demo.entity.PersonEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
-import javax.swing.*;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Description WebConfig
@@ -26,44 +26,38 @@ import java.util.Date;
 @Configuration
 public class WebConfig {
 
+    @Bean
+    public MSGConvertor msgConvertor() {
+        return new MSGConvertor();
+    }
 
     @Bean
-    @ConditionalOnBean(name = "requestMappingHandlerAdapter")
     public WebMvcConfigurer webMvcConfigurer() {
 
         WebMvcConfigurer webMvcConfigurer = new WebMvcConfigurer() {
+
             @Override
             public void addFormatters(FormatterRegistry registry) {
-
-                registry.addConverter((source) -> {
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    Date parse = null;
-                    try {
-                        parse = format.parse(source.toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                registry.addConverter(new Converter<String, Date>() {
+                    @Override
+                    public Date convert(String source) {
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        Date parse = null;
+                        try {
+                            parse = format.parse(source);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        return parse;
                     }
-                    return parse;
                 });
-
-
             }
 
+            @Override
+            public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+                converters.add(msgConvertor());
+            }
 
-            //@Override
-            //@ConditionalOnBean(RequestMappingHandlerAdapter.class)
-            //public void addFormatters(FormatterRegistry registry) {
-            //    registry.addConverter(s-> {
-            //        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            //        Date date = null;
-            //        try {
-            //            date = format.parse(s.toString());
-            //        } catch (ParseException e) {
-            //            e.printStackTrace();
-            //        }
-            //        return date;
-            //    });
-            //}
         };
 
         return webMvcConfigurer;

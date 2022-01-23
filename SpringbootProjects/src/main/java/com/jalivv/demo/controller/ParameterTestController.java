@@ -21,7 +21,6 @@ public class ParameterTestController {
     }
 
 
-    @ResponseBody
     @GetMapping("/file")
     public FileSystemResource file() {
         return null;

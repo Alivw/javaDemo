@@ -9,3 +9,9 @@ spring:
     password: jalivv669
 
 
+#Whether a request parameter ("format" by default) should be used to determinethe requested media type.
+#  mvc:
+#    contentnegotiation:
+#      favor-parameter: true
+
+
