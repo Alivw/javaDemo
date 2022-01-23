@@ -34,7 +34,7 @@ public class WebConfig {
     @Bean
     public WebMvcConfigurer webMvcConfigurer() {
 
-        WebMvcConfigurer webMvcConfigurer = new WebMvcConfigurer() {
+        return new WebMvcConfigurer() {
 
             @Override
             public void addFormatters(FormatterRegistry registry) {
@@ -59,8 +59,6 @@ public class WebConfig {
             }
 
         };
-
-        return webMvcConfigurer;
     }
 
 }
