@@ -33,7 +33,7 @@ public class EmpController {
             empService.saveList(emps);
             return "ok";
         } catch (Exception e) {
-            logger.info("保存出错：{}", e.getStackTrace());
+            logger.error("保存出错:", e);
             return "error";
         }
     }

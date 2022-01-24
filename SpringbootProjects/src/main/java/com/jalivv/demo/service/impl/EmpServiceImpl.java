@@ -33,7 +33,6 @@ public class EmpServiceImpl extends ServiceImpl<EmpDao, Emp> implements EmpServi
 
 
     @Override
-    @Transactional
     public boolean saveList(List<Emp> emps) throws SQLException {
 
         logger.info("com.jalivv.demo.service.impl-->saveList::this.basemapper==empDao ? [{}]", empDao == this.baseMapper);
