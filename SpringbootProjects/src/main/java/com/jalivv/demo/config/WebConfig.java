@@ -7,6 +7,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.accept.ContentNegotiationStrategy;
+import org.springframework.web.accept.ParameterContentNegotiationStrategy;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -23,13 +24,9 @@ import java.util.*;
 @Configuration
 public class WebConfig {
 
-    public MSGConvertor msgConvertor() {
-        return new MSGConvertor();
-    }
-
     @Bean
-    public MappingContentNegotiationStrategy1 mappingContentNegotiationStrategy1() {
-        return new MappingContentNegotiationStrategy1(null);
+    public MyMsgConvertor msgConvertor() {
+        return new MyMsgConvertor();
     }
 
     @Bean
@@ -56,13 +53,18 @@ public class WebConfig {
 
             @Override
             public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+                // 放入容器，这里不用加
                 //converters.add(msgConvertor());
             }
 
             @Override
             public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
                 List<ContentNegotiationStrategy> strategies = new ArrayList<>();
-                strategies.add(mappingContentNegotiationStrategy1());
+                Map<String, MediaType> mediaTypes = new HashMap<>();
+                mediaTypes.put("jalison", MediaType.parseMediaType("application/x-jalivv"));
+                ParameterContentNegotiationStrategy negotiationStrategy = new ParameterContentNegotiationStrategy(mediaTypes);
+                negotiationStrategy.setParameterName("mediaType");
+                strategies.add(negotiationStrategy);
                 configurer.strategies(strategies);
             }
         };

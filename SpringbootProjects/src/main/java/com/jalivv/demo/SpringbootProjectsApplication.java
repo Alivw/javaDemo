@@ -1,12 +1,9 @@
 package com.jalivv.demo;
 
-import annotaion.EnableJalivv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import template.JalivvTemplate;
-
-import java.util.Date;
 
 //@EnableJalivv
 @SpringBootApplication

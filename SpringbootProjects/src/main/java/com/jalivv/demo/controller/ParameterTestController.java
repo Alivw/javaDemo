@@ -2,7 +2,10 @@ package com.jalivv.demo.controller;
 
 import com.jalivv.demo.entity.PersonEntity;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Description 参数设置controller
@@ -15,8 +18,14 @@ import org.springframework.web.bind.annotation.*;
 public class ParameterTestController {
 
 
-    @PostMapping("/person")
+    @PostMapping("/person1")
     public PersonEntity person(PersonEntity person) {
+        return person;
+    }
+
+
+    @PostMapping("/person2")
+    public PersonEntity person2(PersonEntity person) {
         return person;
     }
 
