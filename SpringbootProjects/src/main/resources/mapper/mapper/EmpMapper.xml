@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jalivv.demo.dao.EmpDao">
+  <resultMap id="BaseResultMap" type="com.jalivv.demo.entity.Emp">
+    <!--@mbg.generated-->
+    <!--@Table emp-->
+    <id column="empno" jdbcType="INTEGER" property="empno" />
+    <result column="ename" jdbcType="VARCHAR" property="ename" />
+    <result column="job" jdbcType="VARCHAR" property="job" />
+    <result column="mgr" jdbcType="INTEGER" property="mgr" />
+    <result column="hiredate" jdbcType="DATE" property="hiredate" />
+    <result column="sal" jdbcType="DOUBLE" property="sal" />
+    <result column="comm" jdbcType="DOUBLE" property="comm" />
+    <result column="deptno" jdbcType="INTEGER" property="deptno" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    empno, ename, job, mgr, hiredate, sal, comm, deptno
+  </sql>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update emp
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="ename = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when empno = #{item.empno,jdbcType=INTEGER} then #{item.ename,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="job = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when empno = #{item.empno,jdbcType=INTEGER} then #{item.job,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="mgr = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when empno = #{item.empno,jdbcType=INTEGER} then #{item.mgr,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="hiredate = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when empno = #{item.empno,jdbcType=INTEGER} then #{item.hiredate,jdbcType=DATE}
+        </foreach>
+      </trim>
+      <trim prefix="sal = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when empno = #{item.empno,jdbcType=INTEGER} then #{item.sal,jdbcType=DOUBLE}
+        </foreach>
+      </trim>
+      <trim prefix="comm = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when empno = #{item.empno,jdbcType=INTEGER} then #{item.comm,jdbcType=DOUBLE}
+        </foreach>
+      </trim>
+      <trim prefix="deptno = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when empno = #{item.empno,jdbcType=INTEGER} then #{item.deptno,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+    </trim>
+    where empno in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.empno,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update emp
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="ename = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.ename != null">
+            when empno = #{item.empno,jdbcType=INTEGER} then #{item.ename,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="job = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.job != null">
+            when empno = #{item.empno,jdbcType=INTEGER} then #{item.job,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="mgr = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.mgr != null">
+            when empno = #{item.empno,jdbcType=INTEGER} then #{item.mgr,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="hiredate = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.hiredate != null">
+            when empno = #{item.empno,jdbcType=INTEGER} then #{item.hiredate,jdbcType=DATE}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="sal = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.sal != null">
+            when empno = #{item.empno,jdbcType=INTEGER} then #{item.sal,jdbcType=DOUBLE}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="comm = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.comm != null">
+            when empno = #{item.empno,jdbcType=INTEGER} then #{item.comm,jdbcType=DOUBLE}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="deptno = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.deptno != null">
+            when empno = #{item.empno,jdbcType=INTEGER} then #{item.deptno,jdbcType=INTEGER}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where empno in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.empno,jdbcType=INTEGER}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="empno" keyProperty="empno" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into emp
+    (ename, job, mgr, hiredate, sal, comm, deptno)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.ename,jdbcType=VARCHAR}, #{item.job,jdbcType=VARCHAR}, #{item.mgr,jdbcType=INTEGER},
+        #{item.hiredate,jdbcType=DATE}, #{item.sal,jdbcType=DOUBLE}, #{item.comm,jdbcType=DOUBLE},
+        #{item.deptno,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+
+  <insert id="saveList" parameterType="list">
+    insert into emp (ename, job, mgr, hiredate, sal, comm, deptno) values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.ename},#{item.job},#{item.mgr},#{item.hiredate},#{item.sal},#{item.comm},#{item.deptno})
+
+    </foreach>
+
+  </insert>
+</mapper>
