@@ -13,5 +13,5 @@ import java.util.List;
 @Mapper
 public interface EmpDao extends BaseMapper<Emp> {
 
-    void saveList(List<Emp> emps);
+    Integer saveList(List<Emp> emps);
 }

@@ -5,9 +5,15 @@ import com.jalivv.demo.dao.CategoryDao;
 import com.jalivv.demo.dao.EmpDao;
 import com.jalivv.demo.entity.Emp;
 import com.jalivv.demo.service.EmpService;
+import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,11 +25,23 @@ import java.util.List;
 @Service
 public class EmpServiceImpl extends ServiceImpl<EmpDao, Emp> implements EmpService {
 
+    private static final Logger logger = LoggerFactory.getLogger(EmpServiceImpl.class);
+
+
     @Autowired
     EmpDao empDao;
 
+
     @Override
-    public void saveList(List<Emp> emps) {
-        empDao.saveList(emps);
+    @Transactional
+    public boolean saveList(List<Emp> emps) throws SQLException {
+
+        logger.info("com.jalivv.demo.service.impl-->saveList::this.basemapper==empDao ? [{}]", empDao == this.baseMapper);
+
+        if (!(empDao.saveList(emps) == emps.size())) {
+            throw new SQLException("实际影响条数记录不符");
+        }
+        return true;
+
     }
 }

@@ -13,5 +13,10 @@ spring:
 #  mvc:
 #    contentnegotiation:
 #      favor-parameter: true
+logging:
+  level:
+    com.jalivv.demo: debug
 
 
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
