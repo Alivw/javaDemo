@@ -133,7 +133,7 @@
     </foreach>
   </insert>
 
-  <insert id="saveList" parameterType="list">
+  <insert id="saveList" parameterType="java.util.List">
     insert into emp (ename, job, mgr, hiredate, sal, comm, deptno) values
     <foreach collection="list" item="item" separator=",">
       (#{item.ename},#{item.job},#{item.mgr},#{item.hiredate},#{item.sal},#{item.comm},#{item.deptno})
