@@ -175,17 +175,18 @@ public class Main {
 
     /**
      * park/unpark 解决程序永久挂起
+     * 但是 park 并不会释放拥有的锁
      * 多次unpark 只会当作一次凭证来使用，如果 连续两次 park ，仍然会导致程序永久挂起
      */
     public void test6() throws InterruptedException {
         Thread t1 = new Thread(() -> {
             if (ICE_CREAM == null) {
                 System.out.println("没有冰淇淋，小朋友不开心，等待。。。");
-                try {
-                    Thread.sleep(6000L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                //try {
+                //    Thread.sleep(6000L);
+                //} catch (InterruptedException e) {
+                //    e.printStackTrace();
+                //}
                 synchronized (this) {
                     LockSupport.park();
                     //LockSupport.park();
@@ -202,7 +203,7 @@ public class Main {
         Thread.sleep(2000L);
         synchronized (this) {
             LockSupport.unpark(t1);
-            LockSupport.unpark(t1);
+            //LockSupport.unpark(t1);
         }
         System.out.println("冰淇凌做好了，通知小朋友");
     }
