@@ -12,6 +12,10 @@ public class Main {
 
     public static final Object ICE_CREAM = null;
 
+    /**
+     * 由于 jdk 底层遗留问题，可能挂起线程伪唤醒（没有 调用 notify、resume、unpark...方法，线程被唤醒了，称为伪唤醒）
+     * 所以官方不建议用if判断 ，该用while
+     */
     public static void main(String[] args) throws InterruptedException {
         //new Main().test1();
         //new Main().test2();
@@ -25,7 +29,7 @@ public class Main {
 
     public void test1() throws InterruptedException {
         Thread t1 = new Thread(() -> {
-            if (ICE_CREAM == null) {
+            while (ICE_CREAM == null) {
                 System.out.println("没有冰淇淋，小朋友不开心，等待。。。");
                 Thread.currentThread().suspend();
             }
