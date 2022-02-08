@@ -9,6 +9,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
+@FunctionalInterface
+interface RejectPolicy<T> {
+    void reject(BlockQueue<T> queue, T task);
+}
+
 /**
  * @Description 手写线程池
  * @Created: with IntelliJ IDEA.
@@ -19,18 +24,30 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Test {
 
     public static void main(String[] args) {
-        ThreadPool threadPool = new ThreadPool(2, 1000, TimeUnit.MILLISECONDS, 5);
+        ThreadPool threadPool = new ThreadPool(2, 1000, TimeUnit.MILLISECONDS, 5, (queue, task) -> {
 
-        for (int i = 0; i < 5; i++) {
+            if (queue.offer(task, 2, TimeUnit.SECONDS)) {
+                log.debug("加入队列成功:{}", task);
+            } else {
+                log.debug("加入队列失败:{}", task);
+            }
+        });
+
+        for (int i = 0; i < 20; i++) {
             int j = i;
             threadPool.execute(() -> {
+                try {
+                    Thread.sleep(2500L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 System.out.println(j);
             });
         }
     }
 
 }
-
 
 @Slf4j(topic = "c.BlockQueue")
 class BlockQueue<T> {
@@ -128,6 +145,7 @@ class BlockQueue<T> {
         try {
             while (queue.size() == capacity) {
                 try {
+                    log.debug("任务等待加入队列....{}", element);
                     fullWaitSet.await();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -136,6 +154,36 @@ class BlockQueue<T> {
             log.debug("任务加入任务队列{}", element);
             queue.addLast(element);
             emptyWaitSet.signal();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+
+    /**
+     * 带超时时间带阻塞添加
+     *
+     * @param timeout
+     * @param timeUnit
+     * @return
+     */
+    public boolean offer(T task, long timeout, TimeUnit timeUnit) {
+        lock.lock();
+        try {
+            long nanos = timeUnit.toNanos(timeout);
+            while (queue.size() == capacity) {
+                try {
+                    if (nanos <= 0) {
+                        return false;
+                    }
+                    nanos = fullWaitSet.awaitNanos(nanos);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            queue.addLast(task);
+            emptyWaitSet.signalAll();
+            return true;
         } finally {
             lock.unlock();
         }
@@ -150,6 +198,23 @@ class BlockQueue<T> {
         lock.lock();
         try {
             return queue.size();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void tryPut(RejectPolicy rejectPolicy, T task) {
+        lock.lock();
+        try {
+            // 判断队列是否已满
+            if (queue.size() == capacity) {
+                rejectPolicy.reject(this, task);
+            } else {
+                //  有空闲
+                log.debug("加入任务队列:{}", task);
+                queue.addLast(task);
+                emptyWaitSet.signalAll();
+            }
         } finally {
             lock.unlock();
         }
@@ -184,11 +249,17 @@ class ThreadPool {
      */
     private TimeUnit timeUnit;
 
-    public ThreadPool(int corePoolSize, long timeout, TimeUnit timeUnit, int queueCapacity) {
+    /**
+     * 拒绝策略
+     */
+    private RejectPolicy rejectPolicy;
+
+    public ThreadPool(int corePoolSize, long timeout, TimeUnit timeUnit, int queueCapacity, RejectPolicy rejectPolicy) {
         this.taskQueue = new BlockQueue<>(queueCapacity);
         this.corePoolSize = corePoolSize;
         this.timeout = timeout;
         this.timeUnit = timeUnit;
+        this.rejectPolicy = rejectPolicy;
     }
 
     /**
@@ -206,7 +277,15 @@ class ThreadPool {
                 workers.add(worker);
                 worker.start();
             } else {
-                taskQueue.put(task);
+                //taskQueue.put(task);
+                taskQueue.tryPut(rejectPolicy, task);
+                // 死等
+                // 带超时等待
+                // 让调用者放弃执行
+                // 让调用者抛出异常
+                // 让调用者自己执行任务
+
+
             }
         }
 
