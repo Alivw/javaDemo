@@ -24,14 +24,7 @@ interface RejectPolicy<T> {
 public class Test {
 
     public static void main(String[] args) {
-        ThreadPool threadPool = new ThreadPool(2, 1000, TimeUnit.MILLISECONDS, 5, (queue, task) -> {
-
-            if (queue.offer(task, 2, TimeUnit.SECONDS)) {
-                log.debug("加入队列成功:{}", task);
-            } else {
-                log.debug("加入队列失败:{}", task);
-            }
-        });
+        ThreadPool threadPool = new ThreadPool(2, 1000, TimeUnit.MILLISECONDS, 5, new TimeoutRejectPolicy());
 
         for (int i = 0; i < 20; i++) {
             int j = i;
@@ -325,3 +318,35 @@ class ThreadPool {
         }
     }
 }
+
+
+////////////////////////////////////////// 拒绝策略的实现类 //////////////////////////////////////////
+
+/**
+ * 带超时时间的拒绝策略，超时就放弃加入
+ */
+@Slf4j(topic = "c.TimeoutRejectPolicy")
+class TimeoutRejectPolicy implements RejectPolicy {
+    @Override
+    public void reject(BlockQueue queue, Object task) {
+        if (queue.offer(task, 2, TimeUnit.SECONDS)) {
+            log.debug("任务加入队列成功:{}", task);
+        } else
+            log.debug("任务加入队列失败:{}", task);
+    }
+}
+
+/**
+ * 加入不了就阻塞，一直傻等
+ */
+@Slf4j(topic = "c.TimeoutRejectPolicy")
+class BlockRejectPolicy implements RejectPolicy {
+    @Override
+    public void reject(BlockQueue queue, Object task) {
+        queue.put(task);
+    }
+}
+
+
+
+
