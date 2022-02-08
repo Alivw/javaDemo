@@ -19,7 +19,14 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Test {
 
     public static void main(String[] args) {
+        ThreadPool threadPool = new ThreadPool(2, 1000, TimeUnit.MILLISECONDS, 5);
 
+        for (int i = 0; i < 5; i++) {
+            int j = i;
+            threadPool.execute(() -> {
+                System.out.println(j);
+            });
+        }
     }
 
 }
@@ -126,6 +133,7 @@ class BlockQueue<T> {
                     e.printStackTrace();
                 }
             }
+            log.debug("任务加入任务队列{}", element);
             queue.addLast(element);
             emptyWaitSet.signal();
         } finally {
@@ -149,7 +157,7 @@ class BlockQueue<T> {
 }
 
 @Slf4j(topic = "c.ThradPool")
-class ThradPool {
+class ThreadPool {
 
     /**
      * 任务队列
@@ -159,7 +167,7 @@ class ThradPool {
     /**
      * 线程集合
      */
-    private HashSet<Worker> workers;
+    private HashSet<Worker> workers = new HashSet<>();
 
     /**
      * 核心线程数
@@ -176,7 +184,7 @@ class ThradPool {
      */
     private TimeUnit timeUnit;
 
-    public ThradPool(int corePoolSize, long timeout, TimeUnit timeUnit, int queueCapacity) {
+    public ThreadPool(int corePoolSize, long timeout, TimeUnit timeUnit, int queueCapacity) {
         this.taskQueue = new BlockQueue<>(queueCapacity);
         this.corePoolSize = corePoolSize;
         this.timeout = timeout;
@@ -194,6 +202,7 @@ class ThradPool {
         synchronized (workers) {
             if (workers.size() < corePoolSize) {
                 Worker worker = new Worker(task);
+                log.debug("新增worker{}", worker);
                 workers.add(worker);
                 worker.start();
             } else {
@@ -203,7 +212,6 @@ class ThradPool {
 
     }
 
-    @Slf4j(topic = "c.Worker")
     class Worker extends Thread {
 
         private Runnable task;
@@ -221,6 +229,7 @@ class ThradPool {
             // task 为空，从taskQueue 取任务执行
             while (task != null || (task = taskQueue.take()) != null) {
                 try {
+                    log.debug("正在执行任务:{}", task);
                     task.run();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -230,6 +239,7 @@ class ThradPool {
             }
 
             synchronized (workers) {
+                log.debug("移除线程:{}", this);
                 workers.remove(this);
             }
         }
