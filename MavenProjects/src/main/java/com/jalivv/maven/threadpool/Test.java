@@ -202,7 +202,7 @@ class ThreadPool {
         synchronized (workers) {
             if (workers.size() < corePoolSize) {
                 Worker worker = new Worker(task);
-                log.debug("新增worker{}", worker);
+                log.debug("新增worker:{},task:{}", worker, task);
                 workers.add(worker);
                 worker.start();
             } else {
@@ -227,7 +227,8 @@ class ThreadPool {
         public void run() {
             // 当task 不为空，执行任务
             // task 为空，从taskQueue 取任务执行
-            while (task != null || (task = taskQueue.take()) != null) {
+            //while (task != null || (task = taskQueue.take()) != null) {
+            while (task != null || (task = taskQueue.poll(2000, TimeUnit.MILLISECONDS)) != null) {
                 try {
                     log.debug("正在执行任务:{}", task);
                     task.run();
