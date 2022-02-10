@@ -19,8 +19,29 @@ import java.util.concurrent.Future;
 public class Test {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         ExecutorService pool = Executors.newFixedThreadPool(2);
-        test3(pool);
+        //test3(pool);
+        //test4(pool);
+    }
 
+    /**
+     * invokeAny 一个任务集合，如果有任务执行成功了，就返回，其他的任务不会执行
+     * @param pool
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    private static void test4(ExecutorService pool) throws InterruptedException, ExecutionException {
+        Object o = pool.invokeAny(Arrays.asList(
+                ()->{
+                    return 1;
+                },
+                ()->{
+                    return 2;
+                },
+                ()->{
+                    return 3;
+                }
+        ));
+        log.debug("{}",o);
     }
 
     /**
