@@ -2,7 +2,6 @@ package com.jalivv.maven.threadpool.starvation;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -28,6 +27,7 @@ public class Test {
 
 
     public static void main(String[] args) throws InterruptedException {
+
         ExecutorService waiter = Executors.newFixedThreadPool(2);
         ExecutorService cooker = Executors.newFixedThreadPool(2);
         waiter.execute(()->{
