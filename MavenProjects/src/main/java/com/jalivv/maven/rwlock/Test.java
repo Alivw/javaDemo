@@ -20,7 +20,7 @@ public class Test {
             containner.read();
         }, "t1").start();
         new Thread(() -> {
-            containner.read();
+            containner.write(1);
         }, "t1").start();
         new Thread(() -> {
             containner.read();
@@ -40,7 +40,7 @@ class DataContainner {
     private ReentrantReadWriteLock.WriteLock w = rw.writeLock();
 
     public Object read() {
-        w.lock();
+        r.lock();
         log.debug("locking...");
         try {
             try {
@@ -52,7 +52,7 @@ class DataContainner {
             return data;
         } finally {
             log.debug("unlock");
-            w.unlock();
+            r.unlock();
         }
     }
 
