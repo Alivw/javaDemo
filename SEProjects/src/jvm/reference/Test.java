@@ -3,6 +3,7 @@ package jvm.reference;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +18,30 @@ public class Test {
 
         //soft();
 
-        referenceQueue();
+        //referenceQueue();
 
+        //weakReference();
+
+    }
+
+    /**
+     * 弱引用，在垃圾回收时就回收与弱引用关联的对象的内存
+     */
+    private static void weakReference() {
+        List<WeakReference<byte[]>> list = new ArrayList<>();
+        for (int i = 0; i < 15; i++) {
+            // 关联了引用队列，当软引用所关联的byte[]被回收时，
+            WeakReference<byte[]> softR = new WeakReference<>(new byte[_4MB]);
+            list.add(softR);
+            for (WeakReference<byte[]> w : list) {
+                System.out.print(w.get()+" ");
+            }
+            System.out.println(i + 1);
+        }
+        System.out.println("=============");
+        for (WeakReference<byte[]> s : list) {
+            System.out.println(s.get());
+        }
     }
 
     /**
