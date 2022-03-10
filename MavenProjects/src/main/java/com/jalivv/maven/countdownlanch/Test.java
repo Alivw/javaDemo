@@ -1,4 +1,6 @@
-package thread.juc.countdownlanch;
+package com.jalivv.maven.countdownlanch;
+
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -6,11 +8,10 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Slf4j(topic = "Test")
 public class Test {
 
     public static void main(String[] args) {
-
-
         ExecutorService pool = Executors.newFixedThreadPool(10);
         CountDownLatch countDownLatch = new CountDownLatch(10);
         String[] all = new String[10];
