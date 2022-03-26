@@ -35,7 +35,9 @@ public class Test {
                 () -> new ConcurrentHashMap<String, LongAdder>(),
                 (map, words) -> {
                     for (String word : words) {
+                        // 如果缺少一个 key ，则计算生成一个 value ，然后将 key ，value 放入map
                         LongAdder longAdder = map.computeIfAbsent(word, (key) -> new LongAdder());
+                        // 执行累加
                         longAdder.increment();
                     }
                 }
