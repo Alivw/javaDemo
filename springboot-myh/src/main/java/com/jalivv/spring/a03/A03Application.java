@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-public class A03Application {
+public class A03Application { 
 
 
     private static final Logger logger = LoggerFactory.getLogger(A03Application.class);
