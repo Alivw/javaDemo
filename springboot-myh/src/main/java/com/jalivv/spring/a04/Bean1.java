@@ -18,6 +18,7 @@ public class Bean1 {
     @Autowired
     public void setBean2(Bean2 bean2) {
         logger.debug("@Autowired 生效：{}", bean2);
+        this.bean2 = bean2;
     }
 
     private Bean3 bean3;
@@ -25,6 +26,7 @@ public class Bean1 {
     @Resource
     public void setBean3(Bean3 bean3) {
         logger.debug("@Resource 生效：{}", bean3);
+        this.bean3 = bean3;
     }
 
     private String home;
