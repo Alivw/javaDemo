@@ -6,8 +6,11 @@ import java.util.List;
 public class TestTemplateMethod {
     public static void main(String[] args) {
         MyBeanFactory beanFactory = new MyBeanFactory();
-        beanFactory.addBeanPostProcessor((o) -> {
+        beanFactory.addBeanPostProcessor(o -> {
             System.out.println("解析 @Autowired ,执行依赖注入");
+        });
+        beanFactory.addBeanPostProcessor(o -> {
+            System.out.println("解析 @Resource ,执行依赖注入");
         });
         beanFactory.getBean();
     }
