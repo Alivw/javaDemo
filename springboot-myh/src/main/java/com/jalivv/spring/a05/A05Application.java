@@ -1,6 +1,10 @@
 package com.jalivv.spring.a05;
 
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.context.annotation.AnnotationBeanNameGenerator;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ConfigurationClassPostProcessor;
 import org.springframework.context.support.GenericApplicationContext;
@@ -31,28 +35,34 @@ public class A05Application {
 
         for (String s : componentScan.basePackages()) {
             //com.jalivv.spring.a05.component -> classpath*:com/jalivv/spring/a05/component/**/*.class (** 表示子包)
-            System.out.println(s);
             String path = "classpath*:" + s.replace(".", "/") + "/**/*.class";
-
-            System.out.println(path);
             CachingMetadataReaderFactory factory = new CachingMetadataReaderFactory();
+            AnnotationBeanNameGenerator generator = new AnnotationBeanNameGenerator();
+            DefaultListableBeanFactory beanFactory = context.getDefaultListableBeanFactory();
+
             Resource[] resources = context.getResources(path);
             for (Resource resource : resources) {
                 //System.out.println(resource);
                 MetadataReader reader = factory.getMetadataReader(resource);
-                System.out.println("类名：" + reader.getClassMetadata().getClassName());
-                System.out.println("是否加了 @Component："+reader.getAnnotationMetadata().hasAnnotation(Component.class.getName()));
-                System.out.println("是否加了 @Component 派生注解："+reader.getAnnotationMetadata().hasMetaAnnotation(Component.class.getName()));
+                //System.out.println("类名：" + reader.getClassMetadata().getClassName());
+                //System.out.println("是否加了 @Component："+reader.getAnnotationMetadata().hasAnnotation(Component.class.getName()));
+                //System.out.println("是否加了 @Component 派生注解："+reader.getAnnotationMetadata().hasMetaAnnotation(Component.class.getName()));
 
+                if (reader.getAnnotationMetadata().hasAnnotation(Component.class.getName())
+                        || reader.getAnnotationMetadata().hasMetaAnnotation(Component.class.getName())) {
+                    AbstractBeanDefinition bd = BeanDefinitionBuilder.genericBeanDefinition(reader.getClassMetadata().getClassName()).getBeanDefinition();
+                    String name = generator.generateBeanName(bd, beanFactory);
+                    beanFactory.registerBeanDefinition(name, bd);
+                }
 
             }
         }
 
         context.refresh();
 
-        //for (String name : context.getBeanDefinitionNames()) {
-        //    System.out.println(name);
-        //}
+        for (String name : context.getBeanDefinitionNames()) {
+            System.out.println(name);
+        }
         context.close();
     }
 }
