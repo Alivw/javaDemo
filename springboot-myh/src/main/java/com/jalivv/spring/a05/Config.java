@@ -40,19 +40,19 @@ public class Config {
         return dataSource;
     }
 
-    @Bean
-    public MapperFactoryBean<Mapper1> mapper1(SqlSessionFactory sqlSessionFactory) {
-        MapperFactoryBean<Mapper1> mapper1 = new MapperFactoryBean(Mapper1.class);
-        mapper1.setSqlSessionFactory(sqlSessionFactory);
-        return mapper1;
-    }
-
-    @Bean
-    public MapperFactoryBean<Mapper2> mapper2(SqlSessionFactory sqlSessionFactory) {
-        MapperFactoryBean<Mapper2> mapper2 = new MapperFactoryBean(Mapper2.class);
-        mapper2.setSqlSessionFactory(sqlSessionFactory);
-        return mapper2;
-    }
+    //@Bean
+    //public MapperFactoryBean<Mapper1> mapper1(SqlSessionFactory sqlSessionFactory) {
+    //    MapperFactoryBean<Mapper1> mapper1 = new MapperFactoryBean(Mapper1.class);
+    //    mapper1.setSqlSessionFactory(sqlSessionFactory);
+    //    return mapper1;
+    //}
+    //
+    //@Bean
+    //public MapperFactoryBean<Mapper2> mapper2(SqlSessionFactory sqlSessionFactory) {
+    //    MapperFactoryBean<Mapper2> mapper2 = new MapperFactoryBean(Mapper2.class);
+    //    mapper2.setSqlSessionFactory(sqlSessionFactory);
+    //    return mapper2;
+    //}
 
 
 }
