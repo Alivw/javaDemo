@@ -35,7 +35,7 @@ public class A05Application2 {
             BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition();
             // 哪个对象(config)来调用这些方法 生成 bean
             builder.setFactoryMethodOnBean(annotatedMethod.getMethodName(), "config");
-            // 指定装配模式 方法参数是需要装配的
+            // 指定装配模式  默认是 AutowireCapableBeanFactory.AUTOWIRE_NO ，遇到方法参数 不自动装配，直接跳过
             builder.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_CONSTRUCTOR);
             for (Object o : initMethod) {
                 if (o instanceof String) {
