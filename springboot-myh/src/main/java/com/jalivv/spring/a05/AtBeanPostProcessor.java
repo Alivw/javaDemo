@@ -1,11 +1,11 @@
 package com.jalivv.spring.a05;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.type.MethodMetadata;
@@ -20,10 +20,9 @@ import java.util.List;
  * @Date 2022/3/30 09:20
  * @Created by jalivv
  */
-public class AtBeanPostProcessor implements BeanFactoryPostProcessor {
+public class AtBeanPostProcessor implements BeanDefinitionRegistryPostProcessor {
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
-
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry factory) throws BeansException {
         try {
             CachingMetadataReaderFactory cachingMetadataReaderFactory = new CachingMetadataReaderFactory();
             MetadataReader reader = cachingMetadataReaderFactory.getMetadataReader(new ClassPathResource("com/jalivv/spring/a05/Config.class"));
@@ -45,13 +44,16 @@ public class AtBeanPostProcessor implements BeanFactoryPostProcessor {
                 }
                 // 注册到 BeanFactory 中
                 AbstractBeanDefinition beanDefinition = builder.getBeanDefinition();
-                if (configurableListableBeanFactory instanceof DefaultListableBeanFactory) {
-                    ((DefaultListableBeanFactory) configurableListableBeanFactory).registerBeanDefinition(annotatedMethod.getMethodName(), beanDefinition);
-                }
+                factory.registerBeanDefinition(annotatedMethod.getMethodName(), beanDefinition);
 
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+
     }
 }

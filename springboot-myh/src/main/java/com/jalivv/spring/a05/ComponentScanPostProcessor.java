@@ -1,11 +1,11 @@
 package com.jalivv.spring.a05;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.context.annotation.AnnotationBeanNameGenerator;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -17,10 +17,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-public class ComponentScanPostProcessor implements BeanFactoryPostProcessor {
+public class ComponentScanPostProcessor implements BeanDefinitionRegistryPostProcessor {
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
+    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry beanFactory) throws BeansException {
         try {
             ComponentScan componentScan = AnnotationUtils.findAnnotation(Config.class, ComponentScan.class);
             for (String s : componentScan.basePackages()) {
@@ -34,16 +34,18 @@ public class ComponentScanPostProcessor implements BeanFactoryPostProcessor {
                     if (reader.getAnnotationMetadata().hasAnnotation(Component.class.getName())
                             || reader.getAnnotationMetadata().hasMetaAnnotation(Component.class.getName())) {
                         AbstractBeanDefinition bd = BeanDefinitionBuilder.genericBeanDefinition(reader.getClassMetadata().getClassName()).getBeanDefinition();
-                        if (configurableListableBeanFactory instanceof DefaultListableBeanFactory) {
-                            DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) configurableListableBeanFactory;
                             String name = generator.generateBeanName(bd, beanFactory);
                             beanFactory.registerBeanDefinition(name, bd);
-                        }
                     }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
+
     }
 }
