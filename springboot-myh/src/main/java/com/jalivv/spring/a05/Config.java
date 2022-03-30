@@ -1,5 +1,6 @@
 package com.jalivv.spring.a05;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -27,10 +28,10 @@ public class Config {
     }
 
 
-    @Bean
-    public HikariDataSource dataSource() {
-        HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl("jdbc:mysql://service.aliww.top:3306/yang");
+    @Bean(initMethod = "init")
+    public DruidDataSource dataSource() {
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setUrl("jdbc:mysql://service.aliww.top:3306/yang");
         dataSource.setUsername("root");
         dataSource.setPassword("jalivv666");
         return dataSource;
