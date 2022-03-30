@@ -16,6 +16,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * 模拟解析 @ComponentScan
+ */
 public class A05Application {
     public static void main(String[] args) throws IOException {
         GenericApplicationContext context = new GenericApplicationContext();
