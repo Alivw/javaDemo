@@ -1,6 +1,5 @@
 package com.jalivv.spring.a05;
 
-import com.jalivv.spring.a05.mapper.Mapper1;
 import org.springframework.context.support.GenericApplicationContext;
 
 import java.io.IOException;
