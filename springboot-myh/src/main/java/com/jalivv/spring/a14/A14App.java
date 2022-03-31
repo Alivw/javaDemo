@@ -11,8 +11,9 @@ public class A14App {
         Target target = new Target();
         Proxy p = new Proxy((o, method, objects, methodProxy) -> {
             System.out.println("before....");
-            // return method.invoke(target, objects);
-            return method.invoke(target, objects);
+            // return method.invoke(target, objects);   // 内部反射 结合目标使用
+            // return methodProxy.invoke(target, objects);  // 内部无反射，结合目标使用
+            return methodProxy.invokeSuper(o, objects);     // 内部无反射，结合代理使用
         });
 
         p.save();
