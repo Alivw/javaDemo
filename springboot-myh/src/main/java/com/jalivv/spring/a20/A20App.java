@@ -59,12 +59,11 @@ public class A20App {
 
          */
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/test4");
-        // request.addParameter("name","jalivv");
-        // request.addHeader("token","jalivvToken666");
+        request.addParameter("name","jalivv");
+        request.addHeader("token","jalivvToken666");
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         HandlerExecutionChain chain = requestMappingHandlerMapping.getHandler(request);
-        logger.debug("{}",chain);
 
         // handlerAdapter 作用：调用控制器方法
         MyRequestMappingHandlerAdapter handlerAdapter = (MyRequestMappingHandlerAdapter) ac.getBean("requestMappingHandlerAdapter");
@@ -74,14 +73,15 @@ public class A20App {
         String s = new String(bytes, StandardCharsets.UTF_8);
         logger.debug("{}",s);
 
-
-        // logger.debug("------------------所有的参数解析器------------------");
-        // for (HandlerMethodArgumentResolver argumentResolver : handlerAdapter.getArgumentResolvers()) {
-        //     logger.debug("{}", argumentResolver);
-        // }
-        // logger.debug("------------------所有的返回值解析器------------------");
-        // for (HandlerMethodReturnValueHandler returnValueHandler : handlerAdapter.getReturnValueHandlers()) {
-        //     logger.debug("{}",returnValueHandler);
-        // }
+/*
+        logger.debug("------------------所有的参数解析器------------------");
+        for (HandlerMethodArgumentResolver argumentResolver : handlerAdapter.getArgumentResolvers()) {
+            logger.debug("{}", argumentResolver);
+        }
+        logger.debug("------------------所有的返回值解析器------------------");
+        for (HandlerMethodReturnValueHandler returnValueHandler : handlerAdapter.getReturnValueHandlers()) {
+            logger.debug("{}",returnValueHandler);
+        }
+        */
     }
 }
