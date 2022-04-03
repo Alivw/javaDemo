@@ -12,6 +12,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * @Date 2022/4/3 16:38
  * @Created by jalivv
  */
+@Component
 public class TokenHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
     // 支持哪些参数解析
     @Override

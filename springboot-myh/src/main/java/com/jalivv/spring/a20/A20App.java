@@ -1,5 +1,6 @@
 package com.jalivv.spring.a20;
 
+import com.ctc.wstx.io.CharsetNames;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -56,9 +58,9 @@ public class A20App {
             HandlerExecutionChain：处理器执行链，封装了 handlerMethods 以及一些拦截器
 
          */
-        MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/test3");
-        request.addParameter("name","jalivv");
-        request.addHeader("token","jalivvToken666");
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/test4");
+        // request.addParameter("name","jalivv");
+        // request.addHeader("token","jalivvToken666");
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         HandlerExecutionChain chain = requestMappingHandlerMapping.getHandler(request);
@@ -67,6 +69,11 @@ public class A20App {
         // handlerAdapter 作用：调用控制器方法
         MyRequestMappingHandlerAdapter handlerAdapter = (MyRequestMappingHandlerAdapter) ac.getBean("requestMappingHandlerAdapter");
         handlerAdapter.invokeHandlerMethod(request, response, ((HandlerMethod) chain.getHandler()));
+
+        byte[] bytes = response.getContentAsByteArray();
+        String s = new String(bytes, StandardCharsets.UTF_8);
+        logger.debug("{}",s);
+
 
         // logger.debug("------------------所有的参数解析器------------------");
         // for (HandlerMethodArgumentResolver argumentResolver : handlerAdapter.getArgumentResolvers()) {

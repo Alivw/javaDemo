@@ -64,10 +64,10 @@ public class WebConfig {
     }
 
     @Bean
-    public RequestMappingHandlerAdapter requestMappingHandlerAdapter(){
-        TokenHandlerMethodArgumentResolver tokenResolver = new TokenHandlerMethodArgumentResolver();
+    public RequestMappingHandlerAdapter requestMappingHandlerAdapter(TokenHandlerMethodArgumentResolver tokenResolver, YmlReturnValueHandler returnValueHandler) {
         MyRequestMappingHandlerAdapter handlerAdapter = new MyRequestMappingHandlerAdapter();
         handlerAdapter.setCustomArgumentResolvers(Arrays.asList(tokenResolver));
+        handlerAdapter.setCustomReturnValueHandlers(Arrays.asList(returnValueHandler));
         return handlerAdapter;
     }
 
