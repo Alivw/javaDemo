@@ -80,51 +80,39 @@ public class A21 {
         // 要点3. 准备 ModelAndViewContainer 用来存储中间 Model 结果
         ModelAndViewContainer container = new ModelAndViewContainer();
 
+
         // 要点4. 解析每个参数值
         for (MethodParameter parameter : handlerMethod.getMethodParameters()) {
+            // 多个解析器组合
+            HandlerMethodArgumentResolverComposite composite = new HandlerMethodArgumentResolverComposite();
+            composite.addResolvers(
+                    //                                          false 表示必须有 @RequestParam
+                    new RequestParamMethodArgumentResolver(beanFactory, false),
+                    new PathVariableMethodArgumentResolver(),
+                    new RequestHeaderMethodArgumentResolver(beanFactory),
+                    new ServletCookieValueMethodArgumentResolver(beanFactory),
+                    new ExpressionValueMethodArgumentResolver(beanFactory),
+                    new ServletRequestMethodArgumentResolver(),
+                    new ServletModelAttributeMethodProcessor(false), // 必须有 @ModelAttribute
+                    new RequestResponseBodyMethodProcessor(Arrays.asList(new MappingJackson2HttpMessageConverter())),
+                    new ServletModelAttributeMethodProcessor(true), // 省略了 @ModelAttribute
+                    new RequestParamMethodArgumentResolver(beanFactory, true) // 省略 @RequestParam
+            );
+
             String annotations = Arrays.stream(parameter.getParameterAnnotations()).map(a -> a.annotationType().getSimpleName()).collect(Collectors.joining());
             String str = annotations.length() > 0 ? " @" + annotations + " " : " ";
             parameter.initParameterNameDiscovery(new DefaultParameterNameDiscoverer());
 
-            //                                                                                                      useDefaultResolution: false 表示必须要有 @RequestParam注解，不能省略
-            RequestParamMethodArgumentResolver resolver = new RequestParamMethodArgumentResolver(beanFactory, false);
-            if (resolver.supportsParameter(parameter)) {
-                Object v = resolver.resolveArgument(parameter, container, new ServletWebRequest(request), factory);
-                System.out.println("[" + parameter.getParameterIndex() + "]  " + str + parameter.getParameterType().getSimpleName() + "  " + parameter.getParameterName() + "->" + v);
-            } else
-                System.out.println("[" + parameter.getParameterIndex() + "]  " + str + parameter.getParameterType().getSimpleName() + "  " + parameter.getParameterName());
+            if (composite.supportsParameter(parameter)) {
+                // 支持此参数
+                Object v = composite.resolveArgument(parameter, container, new ServletWebRequest(request), factory);
+//                System.out.println(v.getClass());
+                System.out.println("[" + parameter.getParameterIndex() + "] " + str + parameter.getParameterType().getSimpleName() + " " + parameter.getParameterName() + "->" + v);
+                System.out.println("模型数据为：" + container.getModel());
+            } else {
+                System.out.println("[" + parameter.getParameterIndex() + "] " + str + parameter.getParameterType().getSimpleName() + " " + parameter.getParameterName());
+            }
         }
-//         for (MethodParameter parameter : handlerMethod.getMethodParameters()) {
-//             // 多个解析器组合
-//             HandlerMethodArgumentResolverComposite composite = new HandlerMethodArgumentResolverComposite();
-//             composite.addResolvers(
-//                     //                                          false 表示必须有 @RequestParam
-//                     new RequestParamMethodArgumentResolver(beanFactory, false),
-//                     new PathVariableMethodArgumentResolver(),
-//                     new RequestHeaderMethodArgumentResolver(beanFactory),
-//                     new ServletCookieValueMethodArgumentResolver(beanFactory),
-//                     new ExpressionValueMethodArgumentResolver(beanFactory),
-//                     new ServletRequestMethodArgumentResolver(),
-//                     new ServletModelAttributeMethodProcessor(false), // 必须有 @ModelAttribute
-//                     new RequestResponseBodyMethodProcessor(Arrays.asList(new MappingJackson2HttpMessageConverter())),
-//                     new ServletModelAttributeMethodProcessor(true), // 省略了 @ModelAttribute
-//                     new RequestParamMethodArgumentResolver(beanFactory, true) // 省略 @RequestParam
-//             );
-//
-//             String annotations = Arrays.stream(parameter.getParameterAnnotations()).map(a -> a.annotationType().getSimpleName()).collect(Collectors.joining());
-//             String str = annotations.length() > 0 ? " @" + annotations + " " : " ";
-//             parameter.initParameterNameDiscovery(new DefaultParameterNameDiscoverer());
-//
-//             if (composite.supportsParameter(parameter)) {
-//                 // 支持此参数
-//                 Object v = composite.resolveArgument(parameter, container, new ServletWebRequest(request), factory);
-// //                System.out.println(v.getClass());
-//                 System.out.println("[" + parameter.getParameterIndex() + "] " + str + parameter.getParameterType().getSimpleName() + " " + parameter.getParameterName() + "->" + v);
-//                 System.out.println("模型数据为：" + container.getModel());
-//             } else {
-//                 System.out.println("[" + parameter.getParameterIndex() + "] " + str + parameter.getParameterType().getSimpleName() + " " + parameter.getParameterName());
-//             }
-//         }
 
         /*
             学到了什么
