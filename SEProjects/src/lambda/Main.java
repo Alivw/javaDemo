@@ -1,5 +1,9 @@
 package lambda;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
+
 /**
  * @Description
  * @Date 2022/4/25 21:00
@@ -12,6 +16,13 @@ public class Main {
         student.setName("jalivv");
         test(student, student::getName);
 
+        System.out.printf("%2s","1");
+
+        List<Integer> numList = getNumList(10, ( () ->(int) (Math.random() * 100)));
+        for (Integer num : numList) {
+            System.out.print(num+" ");
+        }
+
     }
 
 
@@ -19,6 +30,14 @@ public class Main {
         System.out.println(((String) inter.accept()));
     }
 
+    public static List<Integer> getNumList(int num, Supplier<Integer> sup) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < num; i++) {
+            Integer integer = sup.get();
+            list.add(integer);
+        }
+        return list;
+    }
 }
 
 
