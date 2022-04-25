@@ -1,5 +1,8 @@
 package com.jalivv.demo.controller;
 
+import org.apache.coyote.Request;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,9 @@ import java.util.Map;
 @RequestMapping("/hello")
 public class HelloController {
 
+    @Autowired
+    private ApplicationContext context;
+
     @GetMapping("/test1")
     public String hello1(
             Map<String, Object> user,
@@ -33,6 +39,15 @@ public class HelloController {
     @GetMapping("/success")
     @ResponseBody
     public Object success(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("hello", request.getAttribute("hello"));
+        map.put("world", request.getAttribute("world"));
+        return map;
+    }
+
+    @GetMapping("abc")
+    @ResponseBody
+    public Object success1(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         map.put("hello", request.getAttribute("hello"));
         map.put("world", request.getAttribute("world"));

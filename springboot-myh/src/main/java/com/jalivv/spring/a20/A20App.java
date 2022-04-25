@@ -37,10 +37,10 @@ public class A20App {
 
         // DispatcherServlet dispatcherServlet = ac.getBean(DispatcherServlet.class);
         // Method getHandlerMappings = dispatcherServlet.getClass().getDeclaredMethod("getHandlerMappings");
+        // }
         // List<HandlerMapping> invoke = (List<HandlerMapping>) getHandlerMappings.invoke(dispatcherServlet, null);
         // for (HandlerMapping handlerMapping : invoke) {
         //     System.out.println(handlerMapping);
-        // }
 
         // 作用 解析 @RequestMapping 以及派生注解，生成路径与控制器方法的映射关系，在初始化时就生成
         RequestMappingHandlerMapping requestMappingHandlerMapping = ac.getBean(RequestMappingHandlerMapping.class);
