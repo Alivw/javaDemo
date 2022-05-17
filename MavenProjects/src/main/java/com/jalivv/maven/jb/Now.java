@@ -1,9 +1,12 @@
 package com.jalivv.maven.jb;
 
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class Now {
 
     private String code;
