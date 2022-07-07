@@ -39,7 +39,6 @@ public class Test {
         TimeUnit.SECONDS.sleep(1);
 
         // 开始
-        log.debug("开始....");
         as.lock();
         try {
             a.signal();

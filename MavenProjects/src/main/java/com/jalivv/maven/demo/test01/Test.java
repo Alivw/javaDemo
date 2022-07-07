@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j(topic = "c.Test")
 public class Test {
     public static void main(String[] args) {
-        WaitNotify waitNotify = new WaitNotify(1, 5);
+        WaitNotify waitNotify = new WaitNotify(1, 3);
         new Thread(() -> {
             waitNotify.print("a", 1, 2);
         }, "t1").start();
@@ -33,18 +33,13 @@ public class Test {
 }
 
 class WaitNotify {
-
     private int waitflag;
-
     private int loopNumber;
-
     public WaitNotify(int waitflag, int loopNumber) {
         this.waitflag = waitflag;
         this.loopNumber = loopNumber;
     }
-
     public void print(String str, int flag, int nextFlag) {
-
         for (int i = 0; i < loopNumber; i++) {
             synchronized (this) {
                 while (waitflag != flag) {
